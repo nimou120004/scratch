@@ -7,6 +7,8 @@
 #include "ns3/arp-header.h"
 #include "ns3/ipv4-header.h"
 #include "ns3/udp-header.h"
+#include "myheader.h"
+
 
 #define PURPLE_CODE "\033[95m"
 #define CYAN_CODE "\033[96m"
@@ -75,7 +77,9 @@ namespace ns3
   void SimpleUdpApplication::HandleReadOne(Ptr<Socket> socket)
   {
     NS_LOG_FUNCTION(this << socket);
+
     Ptr<Packet> packet;
+
     Address from;
     Address localAddress;
     while ((packet = socket->RecvFrom(from)))
@@ -83,7 +87,7 @@ namespace ns3
       NS_LOG_INFO(TEAL_CODE << "HandleReadOne : Received a Packet of size: " << packet->GetSize()
                   << " at time " << Now().GetSeconds() << " from "
                   <<InetSocketAddress::ConvertFrom (from).GetIpv4 ()
-                  << " port " <<InetSocketAddress::ConvertFrom (from).GetPort ()<<" packet number "<<  END_CODE);
+                  << " port " <<InetSocketAddress::ConvertFrom (from).GetPort ()<<" packet UID "<< packet->GetUid () << END_CODE);
       NS_LOG_INFO(packet->ToString());
     }
   }
@@ -101,6 +105,16 @@ namespace ns3
     }
   }
 
+  Ptr<Packet> SimpleUdpApplication::CostumePacket (int sequenceNumber) {
+    //We create our packet
+    Ptr<Packet> packet = Create<Packet> ();
+    //create header which is the data buffer that will hold the Sequence number
+    MyHeader arqHeader = new MyHeader();
+    arqHeader.SetData (sequenceNumber);
+    packet->AddHeader (arqHeader);
+
+    return packet;
+  }
   void SimpleUdpApplication::SendPacket(Ptr<Packet> packet, Ipv4Address destination, uint16_t port)
   {
     NS_LOG_FUNCTION (this << packet << destination << port);

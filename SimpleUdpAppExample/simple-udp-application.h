@@ -2,6 +2,8 @@
 #define NS3_UDP_ARQ_APPLICATION_H
 #include "ns3/socket.h"
 #include "ns3/application.h"
+#include "myheader.h"
+
 
 using namespace ns3;
 
@@ -27,6 +29,10 @@ namespace ns3
       /** \brief Send an outgoing packet. This creates a new socket every time (not the best solution)
       */
       void SendPacket (Ptr<Packet> packet, Ipv4Address destination, uint16_t port);
+
+      /** \brief return a custom packet with Arq sequence number
+      */
+       Ptr<Packet> CostumePacket(int sequenceNumber);
 
     private:
       
