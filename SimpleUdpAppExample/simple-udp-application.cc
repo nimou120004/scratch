@@ -30,8 +30,8 @@ namespace ns3
   SimpleUdpApplication::GetTypeId()
   {
     static TypeId tid = TypeId("ns3::SimpleUdpApplication")
-                            .AddConstructor<SimpleUdpApplication>()
-                            .SetParent<Application>();
+        .AddConstructor<SimpleUdpApplication>()
+        .SetParent<Application>();
     return tid;
   }
 
@@ -53,9 +53,9 @@ namespace ns3
   {
     InetSocketAddress local = InetSocketAddress(Ipv4Address::GetAny(), port);
     if (socket->Bind(local) == -1)
-    {
-      NS_FATAL_ERROR("Failed to bind socket");
-    }
+      {
+        NS_FATAL_ERROR("Failed to bind socket");
+      }
   }
   void SimpleUdpApplication::StartApplication()
   {
@@ -76,20 +76,20 @@ namespace ns3
 
   void SimpleUdpApplication::HandleReadOne(Ptr<Socket> socket)
   {
-    NS_LOG_FUNCTION(this << socket);
+    NS_LOG_FUNCTIONTION(this << socket);
 
     Ptr<Packet> packet;
 
     Address from;
     Address localAddress;
     while ((packet = socket->RecvFrom(from)))
-    {
-      NS_LOG_INFO(TEAL_CODE << "HandleReadOne : Received a Packet of size: " << packet->GetSize()
-                  << " at time " << Now().GetSeconds() << " from "
-                  <<InetSocketAddress::ConvertFrom (from).GetIpv4 ()
-                  << " port " <<InetSocketAddress::ConvertFrom (from).GetPort ()<<" packet UID "<< packet->GetUid () << END_CODE);
-      NS_LOG_INFO(packet->ToString());
-    }
+      {
+        NS_LOG_INFO(TEAL_CODE << "HandleReadOne : Received a Packet of size: " << packet->GetSize()
+                    << " at time " << Now().GetSeconds() << " from "
+                    <<InetSocketAddress::ConvertFrom (from).GetIpv4 ()
+                    << " port " <<InetSocketAddress::ConvertFrom (from).GetPort ()<<" packet UID "<< packet->GetUid () << END_CODE);
+        NS_LOG_INFO(packet->ToString());
+      }
   }
 
   void SimpleUdpApplication::HandleReadTwo(Ptr<Socket> socket)
@@ -99,19 +99,21 @@ namespace ns3
     Address from;
     Address localAddress;
     while ((packet = socket->RecvFrom(from)))
-    {
-      NS_LOG_INFO(PURPLE_CODE << "HandleReadTwo : Received a Packet of size: " << packet->GetSize() << " at time " << Now().GetSeconds() << END_CODE);
-      NS_LOG_INFO("Content: " << packet->ToString());
-    }
+      {
+        NS_LOG_INFO(PURPLE_CODE << "HandleReadTwo : Received a Packet of size: " << packet->GetSize() << " at time " << Now().GetSeconds() << END_CODE);
+        NS_LOG_INFO("Content: " << packet->ToString());
+      }
   }
 
-  Ptr<Packet> SimpleUdpApplication::CostumePacket (int sequenceNumber) {
+  Ptr<Packet> SimpleUdpApplication::CostumePacket (uint32_t sequenceNumber) {
     //We create our packet
     Ptr<Packet> packet = Create<Packet> ();
+    //sequenceNumber = 0xdeadbeaf;
     //create header which is the data buffer that will hold the Sequence number
-    MyHeader arqHeader = new MyHeader();
-    arqHeader.SetData (sequenceNumber);
-    packet->AddHeader (arqHeader);
+    MyHeader myHeader; // = new MyHeader();
+    myHeader.SetData (sequenceNumber);
+    //  arqHeader.SetData (sequenceNumber);
+    packet->AddHeader (myHeader);
 
     return packet;
   }

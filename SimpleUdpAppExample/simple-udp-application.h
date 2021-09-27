@@ -32,7 +32,7 @@ namespace ns3
 
       /** \brief return a custom packet with Arq sequence number
       */
-       Ptr<Packet> CostumePacket(int sequenceNumber);
+       Ptr<Packet> CostumePacket (uint32_t sequenceNumber);
 
     private:
       
@@ -45,6 +45,7 @@ namespace ns3
       Ptr<Socket> m_recv_socket2; /**< A socket to receive on a specific port */
       uint16_t m_port1; 
       uint16_t m_port2;
+     // Ptr<MyHeader> arqHeader;
 
       Ptr<Socket> m_send_socket; /**< A socket to listen on a specific port */
   };

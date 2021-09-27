@@ -9,47 +9,74 @@ namespace ns3 {
   NS_LOG_COMPONENT_DEFINE("MyHeader");
   NS_OBJECT_ENSURE_REGISTERED(MyHeader);
 
+/*
   MyHeader::MyHeader()
   {
 
   }
+*/
+
+/*
+  MyHeader::~MyHeader()
+  {
+
+  }
+*/
 
 
-  void MyHeader::SetData(uint16_t data)
+  void MyHeader::SetData(uint32_t data)
   {
     m_data = data;
   }
 
-  uint16_t MyHeader::GetData (void)
+  uint32_t MyHeader::GetData (void) const
   {
     return m_data;
   }
 
-  uint32_t MyHeader::GetSerializedSize (void) const
+  uint32_t
+  MyHeader::GetSerializedSize (void) const
   {
-    return 2;
+    return 6;
   }
 
-  void MyHeader::Serialize (Buffer::Iterator start) const
+  void
+  MyHeader::Serialize (Buffer::Iterator start) const
   {
-    start.WriteHtonU16 (m_data);
+    start.WriteU8 (0xfe);
+    start.WriteU8 (0xef);
+    //the data
+    start.WriteHtonU32 (m_data);
   }
 
-  uint32_t MyHeader::Deserialize (Buffer::Iterator start)
+  uint32_t
+  MyHeader::Deserialize (Buffer::Iterator start)
   {
-    m_data = start.ReadNtohU16 ();
-    return 2;
+    uint8_t tmp;
+    tmp = start.ReadU8 ();
+    NS_ASSERT (tmp == 0xfe);
+    tmp = start.ReadU8 ();
+    NS_ASSERT (tmp == 0xef);
+    m_data = start.ReadNtohU32 ();
+    return 6; // the number of bytes consumed.
   }
 
   void MyHeader::Print (std::ostream &os) const
   {
-    os << m_data;
+    os << "data= " << m_data;
   }
 
-  TypeId MyHeader::GetTypeId (void)
+  TypeId
+  MyHeader::GetTypeId (void)
   {
-    static TypeId tid = TypeId("ns3::MyHeader").SetParent<Header> ();
+    static TypeId tid = TypeId("MyHeader").SetParent<Header> ().AddConstructor<MyHeader>();
     return tid;
+  }
+
+  TypeId
+  MyHeader::GetInstanceTypeId (void) const
+  {
+    return GetTypeId ();
   }
 }
 

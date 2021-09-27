@@ -10,21 +10,23 @@ namespace ns3
 {
   class MyHeader : public Header
   {
-    public:
-    MyHeader();
 
-    // new methods
-    void SetData (uint16_t data);
-    uint16_t GetData (void);
-    // new method needed
+  public:
     static TypeId GetTypeId (void);
+    virtual TypeId GetInstanceTypeId (void) const;
     // overridden from Header
     virtual uint32_t GetSerializedSize (void) const;
     virtual void Serialize (Buffer::Iterator start) const;
     virtual uint32_t Deserialize (Buffer::Iterator start);
     virtual void Print (std::ostream &os) const;
+
+    // new methods
+    void SetData (uint32_t data);
+    uint32_t GetData (void) const;
+
+
   private:
-    uint16_t m_data;
+    uint32_t m_data;
   };
 }
 
