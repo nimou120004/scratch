@@ -112,8 +112,8 @@ namespace ns3
     //create header which is the data buffer that will hold the Sequence number
     MyHeader myHeader; // = new MyHeader();
     myHeader.SetData (sequenceNumber);
-    //  arqHeader.SetData (sequenceNumber);
     packet->AddHeader (myHeader);
+
 
     return packet;
   }
