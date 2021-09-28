@@ -1,5 +1,6 @@
 #ifndef MYHEADER_H
 #define MYHEADER_H
+#define MTU_SIZE    13 // Arq header size
 #include "ns3/socket.h"
 #include "ns3/application.h"
 #include "ns3/packet.h"
@@ -23,6 +24,9 @@ namespace ns3
     // new methods
     void SetData (uint32_t data);
     uint32_t GetData (void) const;
+
+    //=============set buffer of data in header===============
+    void SetBuffer(char buffer[MTU_SIZE]);
 
 
   private:

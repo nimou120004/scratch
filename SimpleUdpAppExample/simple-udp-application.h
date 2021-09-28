@@ -30,7 +30,7 @@ namespace ns3
       */
       void SendPacket (Ptr<Packet> packet, Ipv4Address destination, uint16_t port);
 
-      /** \brief return a custom packet with Arq sequence number
+      /** \brief return a custom packet with Arq header
       */
        Ptr<Packet> CostumePacket (uint32_t sequenceNumber);
 

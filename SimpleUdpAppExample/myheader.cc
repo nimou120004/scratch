@@ -29,6 +29,11 @@ namespace ns3 {
     m_data = data;
   }
 
+  void MyHeader::SetBuffer (char buffer[MTU_SIZE])
+  {
+
+  }
+
   uint32_t MyHeader::GetData (void) const
   {
     return m_data;

@@ -76,7 +76,7 @@ namespace ns3
 
   void SimpleUdpApplication::HandleReadOne(Ptr<Socket> socket)
   {
-    NS_LOG_FUNCTIONTION(this << socket);
+    NS_LOG_FUNCTION(this << socket);
 
     Ptr<Packet> packet;
 
